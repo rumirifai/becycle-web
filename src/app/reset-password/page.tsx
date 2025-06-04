@@ -47,7 +47,7 @@ export default function ResetPasswordPage() {
         const apiUrl = 'https://project-ppl-production.up.railway.app/auth/reset-password/:token';
 
         try {
-            const res = await fetch(`<span class="math-inline">\{apiUrl\}/</span>{token}`, {
+            const res = await fetch(`${apiUrl}/${token}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ password }),
@@ -61,8 +61,14 @@ export default function ResetPasswordPage() {
             setIsSuccess(true);
             setPassword('');
             setConfirmPassword('');
-        } catch (err: any) {
-            setError(err.message || 'Server error');
+        } catch (err: unknown) {
+            let errorMessage = 'Terjadi kesalahan. Tidak dapat menghubungi server.';
+            if (err instanceof Error) {
+                errorMessage = err.message;
+            } else if (typeof err === 'string') {
+                errorMessage = err;
+            }
+            setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
