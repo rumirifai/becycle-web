@@ -1,8 +1,6 @@
-// src/app/verify-email/page.tsx
 import { Suspense } from 'react';
-import VerifyClient from './VerifyClient'; // Impor komponen klien
+import VerifyClient from './VerifyClient';
 
-// Komponen Fallback untuk loading awal
 function LoadingFallback() {
   return (
     <div className="reset-form-container" style={{ textAlign: 'center', padding: '50px' }}>
