@@ -19,13 +19,11 @@ export default function VerifyClient() {
         return;
       }
       
-      const apiUrl = 'https://project-ppl-production.up.railway.app/auth/verify-email/';
+      const apiUrl = 'https://project-ppl-production.up.railway.app/auth/verify-email';
 
       try {
         const res = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, token }),
+          method: 'GET',
         });
 
         const data = await res.json();
