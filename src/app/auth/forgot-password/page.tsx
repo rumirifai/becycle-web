@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,8 +30,9 @@ export default function ForgotPasswordPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || 'Gagal mengirim email reset.');
+        throw new Error('Gagal mengirim email reset.');
       }
+      setMessage("Email reset password telah dikirim. Silahkan cek email anda");
 
       router.push(`/auth/check-email-reset?email=${email}`);
 
