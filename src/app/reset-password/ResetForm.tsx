@@ -52,7 +52,7 @@ export default function ResetForm() {
       const res = await fetch(`${apiUrl}?&token=${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password }), 
       });
       const data = await res.json();
       if (!res.ok) {
