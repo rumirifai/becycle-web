@@ -15,7 +15,7 @@ const mulish = Mulish({
   variable: "--font-mulish",
 });
 
-const geistSans = Geist({
+/* const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
@@ -23,7 +23,7 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
+}); */
 
 export const metadata: Metadata = {
   title: "Becycle",

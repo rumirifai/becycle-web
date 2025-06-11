@@ -1,4 +1,3 @@
-// src/app/auth/check-email-verification/page.tsx
 'use client';
 
 import { useSearchParams } from 'next/navigation';
@@ -21,7 +20,7 @@ function VerificationComponent() {
       });
       const data = await res.json();
       return data.message || "Email verifikasi telah dikirim ulang.";
-    } catch (error) {
+    } catch (err) {
       return "Gagal mengirim ulang email.";
     }
   };
