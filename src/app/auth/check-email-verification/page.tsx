@@ -21,7 +21,8 @@ function VerificationComponent() {
       const data = await res.json();
       return data.message || "Email verifikasi telah dikirim ulang.";
     } catch (err) {
-      return "Gagal mengirim ulang email.";
+      console.error("Server error: ", err)
+      return "Gagal mengirim ulang email verification";
     }
   };
 
