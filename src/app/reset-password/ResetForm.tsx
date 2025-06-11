@@ -49,7 +49,7 @@ export default function ResetForm() {
     const apiUrl = 'https://project-ppl-production.up.railway.app/auth/reset-password';
 
     try {
-      const res = await fetch(`${apiUrl}?&token=${token}`, {
+      const res = await fetch(`${apiUrl}/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }), 
