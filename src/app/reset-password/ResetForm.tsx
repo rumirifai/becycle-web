@@ -2,6 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, FormEvent } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function ResetForm() {
   const searchParams = useSearchParams();
@@ -47,25 +49,23 @@ export default function ResetForm() {
     const apiUrl = 'https://project-ppl-production.up.railway.app/auth/reset-password';
 
     try {
-      const res = await fetch(`${apiUrl}/${token}`, {
+      const res = await fetch(`<span class="math-inline">\{apiUrl\}/</span>{token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.message || 'Gagal mereset password. Silakan coba lagi.');
+        throw new Error(data.message || 'Gagal mereset password.');
       }
       setMessage(data.message || 'Password berhasil diubah!');
       setIsSuccess(true);
     } catch (err: unknown) {
-      let errorMessage = 'Terjadi kesalahan. Tidak dapat menghubungi server.';
       if (err instanceof Error) {
-        errorMessage = err.message;
-      } else if (typeof err === 'string') {
-        errorMessage = err;
+        setError(err.message);
+      } else {
+        setError('Terjadi kesalahan yang tidak diketahui.');
       }
-      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -73,40 +73,40 @@ export default function ResetForm() {
 
   if (isSuccess) {
     return (
-      <div className="reset-form-container">
-        <h2>Berhasil!</h2>
-        <p className="message success">{message}</p>
-        <p>Anda dapat menutup halaman ini.</p>
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold mb-2 text-green-600">Berhasil!</h2>
+        <p className="text-slate-600">{message}</p>
+        <p className="text-sm text-slate-500 mt-4">Anda sekarang bisa login dengan password baru Anda.</p>
       </div>
     );
   }
 
-  if (!token && error) {
+  if (!token) {
     return (
-      <div className="reset-form-container">
-        <h2>Error</h2>
-        <p className="message error">{error}</p>
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold mb-2 text-red-600">Error</h2>
+        <p className="text-slate-600">{error || 'Token tidak ditemukan.'}</p>
       </div>
     );
   }
-  
+
   return (
-    <div className="reset-form-container">
-      <h2>Reset Password</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="password">Password Baru:</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={isLoading || !token} />
+    <>
+      <h2 className="text-2xl font-semibold text-center mb-6">Reset Password</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="password">Password Baru</label>
+          <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required disabled={isLoading} />
         </div>
-        <div>
-          <label htmlFor="confirmPassword">Konfirmasi Password Baru:</label>
-          <input type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required disabled={isLoading || !token} />
+        <div className="flex flex-col gap-2">
+          <label htmlFor="confirmPassword">Konfirmasi Password Baru</label>
+          <Input type="password" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required disabled={isLoading} />
         </div>
-        {error && (token || isLoading) && <p className="message error">{error}</p>}
-        <button type="submit" disabled={isLoading || !token}>
+        {error && <p className="text-sm text-center text-red-500">{error}</p>}
+        <Button type="submit" className="w-full mt-4" disabled={isLoading}>
           {isLoading ? 'Memproses...' : 'Reset Password'}
-        </button>
+        </Button>
       </form>
-    </div>
+    </>
   );
 }
