@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Camera, Upload, RefreshCw, X, Recycle, PackageCheck} from 'lucide-react';
 import { DetectionResult } from '@/types';
+import MainLayout from "@/components/MainLayout";
 
 export default function HomePage() {
   const router = useRouter();
@@ -205,19 +206,12 @@ export default function HomePage() {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-white overflow-hidden">
-      <div className="bg-shape-top"></div>
-      <Image
-        src="/images/leaves-background.png" alt="Hiasan daun" width={300} height={400}
-        className="bg-leaves-bottom" style={{ objectFit: 'contain' }}
-      />
-      <main className="relative flex min-h-screen flex-col items-center justify-center p-4 z-10">
+    <MainLayout>
+      <div className="flex flex-col items-center justify-center">
         <Card className="w-full max-w-sm rounded-2xl p-6 shadow-2xl">
-          <CardContent className="p-0">
-            {renderContent()}
-          </CardContent>
+          <CardContent className="p-0">{renderContent()}</CardContent>
         </Card>
-      </main>
-    </div>
+      </div>
+    </MainLayout>
   );
 }
