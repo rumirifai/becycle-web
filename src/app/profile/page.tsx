@@ -128,13 +128,14 @@ export default function ProfilePage() {
       <div className="container mx-auto">
         <Card className="mb-8 p-6">
           <div className="flex items-center gap-6">
-            <Image
-              src={profile.profile_picture || "/images/default-avatar.png"}
-              alt="Profile Picture"
-              width={80}
-              height={80}
-              className="rounded-full object-cover"
-            />
+            <div className="relative w-20 h-20">
+              <Image
+                src={profile.profile_picture || "/images/default-avatar.png"}
+                alt="Profile Picture"
+                fill
+                className="rounded-full object-cover"
+              />
+            </div>
             <div className="flex-grow">
               <h1 className="text-2xl font-bold">
                 {profile.full_name || profile.username}
