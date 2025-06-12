@@ -33,3 +33,23 @@ export interface Article {
   publishedAt: string;
   content: string | null;
 }
+
+export interface UserProfile {
+  user_id: number;
+  full_name: string;
+  bio: string;
+  address: string;
+  email: string;
+  username: string;
+  exp: number;
+  points: number;
+  profile_picture: string | null;
+}
+
+export interface Reward {
+  reward_id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  points_required: number;
+}
