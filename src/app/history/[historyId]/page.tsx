@@ -8,12 +8,12 @@ import { HistoryItem } from '@/types';
 import { Card } from '@/components/ui/card';
 
 interface HistoryDetailPageProps {
-    params: {
-      historyId: string;
-    };
+  params: {
+    historyId: string;
+  };
 }
 
-const HistoryDetailPage: FC<HistoryDetailPageProps> = ({ params }) => {
+export default function HistoryDetailPage({ params }: HistoryDetailPageProps) {
   const router = useRouter();
   const { historyId } = params;
   const [detail, setDetail] = useState<HistoryItem | null>(null);
@@ -21,7 +21,11 @@ const HistoryDetailPage: FC<HistoryDetailPageProps> = ({ params }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!historyId) return;
+    if (!historyId) {
+        setIsLoading(false);
+        setError("History ID tidak ditemukan di URL.");
+        return;
+    }
 
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -34,10 +38,11 @@ const HistoryDetailPage: FC<HistoryDetailPageProps> = ({ params }) => {
       const apiUrl = `https://project-ppl-production.up.railway.app/history/${historyId}`;
       try {
         const response = await fetch(apiUrl, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { 'Authorization': `Bearer ${token}` },
         });
         if (!response.ok) {
-          throw new Error('Gagal memuat detail riwayat.');
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Gagal memuat detail riwayat.');
         }
         const data: HistoryItem = await response.json();
         setDetail(data);
@@ -51,26 +56,22 @@ const HistoryDetailPage: FC<HistoryDetailPageProps> = ({ params }) => {
     fetchDetail();
   }, [historyId, router]);
 
-  if (isLoading) {
-    return (
-      <MainLayout>
+  const renderContent = () => {
+    if (isLoading) {
+      return (
         <div className="flex justify-center mt-10">
           <div className="spinner"></div>
         </div>
-      </MainLayout>
-    );
-  }
+      );
+    }
 
-  if (error || !detail) {
-    return (
-      <MainLayout>
+    if (error || !detail) {
+      return (
         <p className="text-center text-red-500">{error || 'Data tidak ditemukan.'}</p>
-      </MainLayout>
-    );
-  }
+      );
+    }
 
-  return (
-    <MainLayout>
+    return (
       <div className="container mx-auto max-w-2xl">
         <Card className="p-6">
           <h1 className="text-3xl font-bold mb-2">{detail.prediction_result}</h1>
@@ -92,25 +93,33 @@ const HistoryDetailPage: FC<HistoryDetailPageProps> = ({ params }) => {
             />
           </div>
           <div className="mt-6 space-y-4">
-            <div>
-              <h2 className="text-xl font-semibold border-b pb-2 mb-2">Proses Daur Ulang</h2>
-              <p className="text-gray-700 whitespace-pre-wrap">{detail.recycle_process}</p>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold border-b pb-2 mb-2">
-                Contoh Produk Hasil Daur Ulang
-              </h2>
-              <ul className="list-disc list-inside text-gray-700">
-                {detail.possible_products
-                  ?.split(',')
-                  .map((product, i) => <li key={i}>{product.trim()}</li>)}
-              </ul>
-            </div>
+            {detail.recycle_process && (
+                <div>
+                    <h2 className="text-xl font-semibold border-b pb-2 mb-2">Proses Daur Ulang</h2>
+                    <p className="text-gray-700 whitespace-pre-wrap">{detail.recycle_process}</p>
+                </div>
+            )}
+            {detail.possible_products && (
+                <div>
+                    <h2 className="text-xl font-semibold border-b pb-2 mb-2">
+                        Contoh Produk Hasil Daur Ulang
+                    </h2>
+                    <ul className="list-disc list-inside text-gray-700">
+                    {detail.possible_products
+                        ?.split(',')
+                        .map((product, i) => <li key={i}>{product.trim()}</li>)}
+                    </ul>
+                </div>
+            )}
           </div>
         </Card>
       </div>
+    );
+  };
+  
+  return (
+    <MainLayout>
+        {renderContent()}
     </MainLayout>
   );
 }
-
-export default HistoryDetailPage;
