@@ -1,9 +1,9 @@
-// src/app/profile/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import MainLayout from "@/components/MainLayout";
 import { UserProfile, Reward } from "@/types";
 import { Button } from "@/components/ui/button";
@@ -133,15 +133,17 @@ export default function ProfilePage() {
               <h1 className="text-2xl font-bold">
                 {profile.full_name || profile.username}
               </h1>
-              <p className="text-sm text-gray-500">{profile.email}</p>
+              <p className="text-sm text-gray-500">{profile.bio}</p>
               <div className="mt-2">
                 <p className="text-xs text-gray-500 mb-1">EXP</p>
                 <Progress value={expProgress} className="h-2" />
               </div>
             </div>
-            <Button variant="outline" size="sm">
-              <Edit className="mr-2 h-4 w-4" /> Edit Profile
-            </Button>
+            <Link href="/profile/edit">
+              <Button variant="outline" size="sm">
+                <Edit className="mr-2 h-4 w-4" /> Edit Profile
+              </Button>
+            </Link>
           </div>
         </Card>
 
