@@ -11,15 +11,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**.detik.net.id',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.kompas.com',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.antaranews.com',
+        hostname: '**',
       },
     ],
   },
