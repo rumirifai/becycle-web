@@ -13,6 +13,7 @@ export default function HomePage() {
   const router = useRouter();
 
   // State untuk alur halaman
+  const [isClientVerified, setIsClientVerified] = useState(false);
   const [pageState, setPageState] = useState<'initial' | 'previewing' | 'loading' | 'results'>('initial');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
@@ -24,6 +25,8 @@ export default function HomePage() {
     const token = localStorage.getItem('accessToken');
     if (!token) {
       router.push('/auth');
+    } else {
+      setIsClientVerified(true);
     }
   }, [router]);
 
@@ -82,7 +85,6 @@ export default function HomePage() {
 
       const result: DetectionResult = await response.json();
       
-      setImagePreviewUrl(result.image_url);
       setDetectionResult(result);
       setPageState('results');
 
@@ -95,6 +97,14 @@ export default function HomePage() {
       setPageState('previewing');
     }
   };
+
+  if (!isClientVerified) {
+    return (
+      <div className="flex w-full h-screen items-center justify-center bg-white">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   // Fungsi untuk merender konten utama di dalam kartu
   const renderContent = () => {
@@ -112,7 +122,7 @@ export default function HomePage() {
                 <span><Upload className="mr-2 h-4 w-4" /> Upload Gambar</span>
               </Button>
             </label>
-            <input id="image-upload" type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+            <input id="image-upload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handleImageChange} />
           </div>
         );
 
@@ -147,7 +157,9 @@ export default function HomePage() {
           <div className="animate-in fade-in-50">
             {/* Hasil Deteksi */}
             <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-slate-100">
-              <Image src={imagePreviewUrl!} alt="Detected Item" layout="fill" objectFit="contain" />
+                {/* --- PERBAIKAN DI SINI --- */}
+                {/* Ambil URL gambar langsung dari objek hasil deteksi */}
+                <Image src={detectionResult.image_url} alt="Detected Item" layout="fill" objectFit="contain" />
             </div>
             <h2 className="text-center font-bold text-2xl mb-1 text-slate-800">{detectionResult.material_type}</h2>
             {detectionResult.can_be_recycled ? (
