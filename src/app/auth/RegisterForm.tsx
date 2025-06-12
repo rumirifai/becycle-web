@@ -22,6 +22,12 @@ export function RegisterForm() {
     setIsLoading(true);
     setError(null);
 
+    if (password !== confirmPassword) {
+      setError("Password dan Konfirmasi Password tidak cocok.");
+      setIsLoading(false);
+      return;
+    }
+
     if (password.length < 8) {
       setError("Password minimal harus 8 karakter.");
       setIsLoading(false);

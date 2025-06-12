@@ -7,7 +7,13 @@ import MainLayout from '@/components/MainLayout';
 import { HistoryItem } from '@/types';
 import { Card } from '@/components/ui/card';
 
-export default function HistoryDetailPage({ params }: { params: { historyId: string } }) {
+interface HistoryDetailPageProps {
+    params: {
+      historyId: string;
+    };
+}
+
+export default function HistoryDetailPage({ params }: HistoryDetailPageProps) {
   const router = useRouter();
   const { historyId } = params;
   const [detail, setDetail] = useState<HistoryItem | null>(null);
