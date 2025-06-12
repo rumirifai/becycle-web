@@ -4,7 +4,6 @@ import StartButton from "@/components/StartButton";
 export default function LandingPage() {
   return (
     <div className="relative w-full min-h-screen bg-white overflow-hidden">
-      
       <div className="bg-shape-top"></div>
       <Image
         src="/images/leaves-background.png"
@@ -12,12 +11,11 @@ export default function LandingPage() {
         width={300}
         height={400}
         className="bg-leaves-bottom"
-        style={{ objectFit: 'contain' }}
+        style={{ objectFit: "contain" }}
       />
 
       <main className="relative flex min-h-screen flex-col items-center justify-center p-8 z-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 max-w-3xl">
-          
           <div className="flex-shrink-0">
             <Image
               src="/images/becycle-logo.png"
@@ -34,8 +32,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="font-mulish text-body font-normal tracking-[0.2px] text-slate-600">
-              Setiap sampah yang kamu daur ulang berarti bagi masa depan bumi kita.
-              Mari mulai dari sini.
+              Siklus Baru untuk Sampahmu.
             </p>
 
             <div className="mt-6">
