@@ -9,7 +9,7 @@ import { UserProfile, Reward, RedeemedReward } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Edit, Trophy } from "lucide-react";
+import { Gift, Edit, Trophy } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function ProfilePage() {
@@ -185,7 +185,9 @@ export default function ProfilePage() {
         </div>
 
         <div className="mb-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">Redeem</h2>
+          <h2 className="text-2xl font-bold">
+            <Gift className="mr-3 text-amber-500" /> Redeem
+          </h2>
           <p className="font-semibold text-lg text-amber-500">
             {profile.points} Poin
           </p>
