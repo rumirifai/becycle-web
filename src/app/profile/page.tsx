@@ -7,9 +7,9 @@ import Image from "next/image";
 import MainLayout from "@/components/MainLayout";
 import { UserProfile, Reward } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Gift, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function ProfilePage() {
