@@ -9,6 +9,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**.detik.net.id',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.kompas.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.antaranews.com',
+      },
     ],
   },
 };
