@@ -55,7 +55,7 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 animate-in fade-in-50 duration-300">
       <div className="flex flex-col gap-2">
-        <label htmlFor="email">Email or Username</label>
+        <label htmlFor="email">Email</label>
         <Input
           type="email"
           id="email"
