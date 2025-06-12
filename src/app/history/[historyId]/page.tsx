@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import MainLayout from '@/components/MainLayout';
@@ -13,7 +13,7 @@ interface HistoryDetailPageProps {
     };
 }
 
-export default function HistoryDetailPage({ params }: HistoryDetailPageProps) {
+const HistoryDetailPage: FC<HistoryDetailPageProps> = ({ params }) => {
   const router = useRouter();
   const { historyId } = params;
   const [detail, setDetail] = useState<HistoryItem | null>(null);
@@ -112,3 +112,5 @@ export default function HistoryDetailPage({ params }: HistoryDetailPageProps) {
     </MainLayout>
   );
 }
+
+export default HistoryDetailPage;
