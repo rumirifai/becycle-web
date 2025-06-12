@@ -117,12 +117,37 @@ export default function HomePage() {
               <Camera size={48} className="text-slate-400" />
               <p className="text-slate-500 mt-2 text-sm">Ambil foto atau upload gambar dari galeri Anda.</p>
             </div>
-            <label htmlFor="image-upload" className="w-full inline-block mt-4">
-              <Button asChild className="w-full cursor-pointer">
-                <span><Upload className="mr-2 h-4 w-4" /> Upload Gambar</span>
-              </Button>
-            </label>
-            <input id="image-upload" type="file" accept="image/*" capture="environment" className="hidden" onChange={handleImageChange} />
+            {/* --- BAGIAN INI YANG KITA UBAH --- */}
+            <div className="flex flex-col gap-3 mt-4">
+              {/* Tombol untuk Kamera */}
+              <label htmlFor="camera-upload" className="w-full">
+                <Button asChild className="w-full cursor-pointer">
+                  <span><Camera className="mr-2 h-4 w-4" /> Ambil Foto</span>
+                </Button>
+              </label>
+              <input 
+                id="camera-upload" 
+                type="file" 
+                accept="image/*" 
+                capture="environment" // <-- Kunci untuk kamera
+                className="hidden" 
+                onChange={handleImageChange} 
+              />
+        
+              {/* Tombol untuk Galeri */}
+              <label htmlFor="gallery-upload" className="w-full">
+                <Button asChild variant="outline" className="w-full cursor-pointer">
+                  <span><Upload className="mr-2 h-4 w-4" /> Pilih dari Galeri</span>
+                </Button>
+              </label>
+              <input 
+                id="gallery-upload" 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleImageChange} 
+              />
+            </div>
           </div>
         );
 

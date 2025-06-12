@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
+import StartButton from "@/components/StartButton";
 
 export default function LandingPage() {
   return (
@@ -40,14 +39,9 @@ export default function LandingPage() {
             </p>
 
             <div className="mt-6">
-              <Link href="/auth">
-                <Button size="lg" className="px-10 py-6 text-lg">
-                  Mulai Sekarang
-                </Button>
-              </Link>
+              <StartButton />
             </div>
           </div>
-
         </div>
       </main>
     </div>
