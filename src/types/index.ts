@@ -53,3 +53,10 @@ export interface Reward {
   image_url: string;
   points_required: number;
 }
+
+export interface RedeemedReward {
+  name: string;
+  image_url: string;
+  points_required: number;
+  redeemed_at: string;
+}

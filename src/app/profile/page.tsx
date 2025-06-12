@@ -5,17 +5,18 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import MainLayout from "@/components/MainLayout";
-import { UserProfile, Reward } from "@/types";
+import { UserProfile, Reward, RedeemedReward } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Edit } from "lucide-react";
+import { Edit, Trophy } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [rewards, setRewards] = useState<Reward[]>([]);
+  const [redeemedRewards, setRedeemedRewards] = useState<RedeemedReward[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,24 +29,29 @@ export default function ProfilePage() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const [profileRes, rewardsRes] = await Promise.all([
+        const [profileRes, rewardsRes, redeemedRes] = await Promise.all([
           fetch("https://project-ppl-production.up.railway.app/profile", {
             headers: { Authorization: `Bearer ${token}` },
           }),
           fetch("https://project-ppl-production.up.railway.app/rewards", {
             headers: { Authorization: `Bearer ${token}` },
           }),
+          fetch("https://project-ppl-production.up.railway.app/rewards/my", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
         ]);
 
-        if (!profileRes.ok || !rewardsRes.ok) {
-          throw new Error("Gagal memuat data halaman profil.");
+        if (!profileRes.ok || !rewardsRes.ok || !redeemedRes.ok) {
+          throw new Error("Gagal memuat semua data halaman profil.");
         }
 
         const profileData = await profileRes.json();
         const rewardsData = await rewardsRes.json();
+        const redeemedData = await redeemedRes.json();
 
         setProfile(profileData);
         setRewards(rewardsData);
+        setRedeemedRewards(redeemedData);
       } catch (error) {
         console.error(error);
         toast.error(
@@ -146,6 +152,36 @@ export default function ProfilePage() {
             </Link>
           </div>
         </Card>
+
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold mb-4 flex items-center">
+            <Trophy className="mr-3 text-amber-500" /> Reward Saya
+          </h2>
+          {redeemedRewards.length === 0 ? (
+            <p className="text-center text-gray-500 py-4">
+              Kamu belum menukarkan reward apapun.
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {redeemedRewards.map((item, index) => (
+                <Card key={index} className="p-3 text-center">
+                  <Image
+                    src={item.image_url}
+                    alt={item.name}
+                    width={80}
+                    height={80}
+                    className="mx-auto mb-2 object-contain h-20"
+                  />
+                  <p className="font-semibold text-sm">{item.name}</p>
+                  <p className="text-xs text-gray-400">
+                    Ditukar pada{" "}
+                    {new Date(item.redeemed_at).toLocaleDateString("id-ID")}
+                  </p>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
 
         <div className="mb-6 flex justify-between items-center">
           <h2 className="text-2xl font-bold">Redeem</h2>
