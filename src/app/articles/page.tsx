@@ -3,12 +3,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import PullToRefresh from "react-pull-to-refresh";
-
+import dynamic from "next/dynamic";
 import MainLayout from "@/components/MainLayout";
 import { Article } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+const PullToRefresh = dynamic(() => import("react-pull-to-refresh"), {
+  ssr: false,
+});
 
 export default function ArticlesPage() {
   const router = useRouter();
@@ -23,9 +26,15 @@ export default function ArticlesPage() {
       }
       setError(null);
 
-      const token = localStorage.getItem("accessToken");
+      const token =
+        typeof window !== "undefined"
+          ? localStorage.getItem("accessToken")
+          : null;
+
       if (!token) {
-        router.push("/auth");
+        if (typeof window !== "undefined") {
+          router.push("/auth");
+        }
         return;
       }
 
