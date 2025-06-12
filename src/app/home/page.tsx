@@ -1,4 +1,3 @@
-// src/app/home/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,12 +6,10 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Camera, Upload, RefreshCw, X, Recycle, PackageCheck} from 'lucide-react';
-import { DetectionResult } from '@/types'; // Impor tipe data kita yang sudah direvisi
+import { DetectionResult } from '@/types';
 
 export default function HomePage() {
   const router = useRouter();
-
-  // State untuk alur halaman
   const [isClientVerified, setIsClientVerified] = useState(false);
   const [pageState, setPageState] = useState<'initial' | 'previewing' | 'loading' | 'results'>('initial');
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -20,7 +17,6 @@ export default function HomePage() {
   const [detectionResult, setDetectionResult] = useState<DetectionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Cek otentikasi saat halaman dimuat
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -30,7 +26,6 @@ export default function HomePage() {
     }
   }, [router]);
 
-  // Fungsi untuk menangani pemilihan gambar
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -41,7 +36,6 @@ export default function HomePage() {
     }
   };
 
-  // Fungsi untuk membatalkan dan kembali ke awal
   const handleCancel = () => {
     setImageFile(null);
     setImagePreviewUrl(null);
@@ -50,7 +44,6 @@ export default function HomePage() {
     setError(null);
   };
 
-  // Fungsi untuk submit gambar ke backend
   const handleSubmit = async () => {
     if (!imageFile) return;
 
@@ -65,7 +58,7 @@ export default function HomePage() {
     setError(null);
 
     const formData = new FormData();
-    formData.append('file', imageFile); // Pastikan key adalah 'file'
+    formData.append('file', imageFile);
 
     const apiUrl = 'https://project-ppl-production.up.railway.app/recycling-predict';
 
@@ -106,7 +99,6 @@ export default function HomePage() {
     );
   }
 
-  // Fungsi untuk merender konten utama di dalam kartu
   const renderContent = () => {
     switch (pageState) {
       case 'initial':
@@ -117,9 +109,7 @@ export default function HomePage() {
               <Camera size={48} className="text-slate-400" />
               <p className="text-slate-500 mt-2 text-sm">Ambil foto atau upload gambar dari galeri Anda.</p>
             </div>
-            {/* --- BAGIAN INI YANG KITA UBAH --- */}
             <div className="flex flex-col gap-3 mt-4">
-              {/* Tombol untuk Kamera */}
               <label htmlFor="camera-upload" className="w-full">
                 <Button asChild className="w-full cursor-pointer">
                   <span><Camera className="mr-2 h-4 w-4" /> Ambil Foto</span>
@@ -129,12 +119,10 @@ export default function HomePage() {
                 id="camera-upload" 
                 type="file" 
                 accept="image/*" 
-                capture="environment" // <-- Kunci untuk kamera
+                capture="environment"
                 className="hidden" 
                 onChange={handleImageChange} 
               />
-        
-              {/* Tombol untuk Galeri */}
               <label htmlFor="gallery-upload" className="w-full">
                 <Button asChild variant="outline" className="w-full cursor-pointer">
                   <span><Upload className="mr-2 h-4 w-4" /> Pilih dari Galeri</span>
@@ -180,10 +168,7 @@ export default function HomePage() {
         if (!detectionResult) return <div>Error: Hasil tidak ditemukan.</div>;
         return (
           <div className="animate-in fade-in-50">
-            {/* Hasil Deteksi */}
             <div className="relative w-full h-48 rounded-lg overflow-hidden mb-4 bg-slate-100">
-                {/* --- PERBAIKAN DI SINI --- */}
-                {/* Ambil URL gambar langsung dari objek hasil deteksi */}
                 <Image src={detectionResult.image_url} alt="Detected Item" layout="fill" objectFit="contain" />
             </div>
             <h2 className="text-center font-bold text-2xl mb-1 text-slate-800">{detectionResult.material_type}</h2>
@@ -193,7 +178,6 @@ export default function HomePage() {
               <p className="text-center text-sm font-medium text-red-600 mb-4">Sulit Didaur Ulang</p>
             )}
 
-            {/* Informasi Detail */}
             <div className="max-h-60 overflow-y-auto pr-2 space-y-4 text-left">
               <div>
                 <h3 className="font-semibold text-lg flex items-center mb-1"><Recycle className="mr-2 h-5 w-5 text-primary" /> Proses Daur Ulang</h3>
@@ -201,7 +185,6 @@ export default function HomePage() {
               </div>
               <div>
                 <h3 className="font-semibold text-lg flex items-center mb-1"><PackageCheck className="mr-2 h-5 w-5 text-primary" /> Contoh Produk</h3>
-                {/* Kita ubah string jadi daftar list */}
                 <ul className="list-disc list-inside text-sm text-slate-600">
                   {detectionResult.possible_products.split(',').map((product, i) => (
                     <li key={i}>{product.trim()}</li>
