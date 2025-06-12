@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Camera, Upload, RefreshCw, X, Recycle, PackageCheck, AlertCircle } from 'lucide-react';
+import { Camera, Upload, RefreshCw, X, Recycle, PackageCheck} from 'lucide-react';
 import { DetectionResult } from '@/types'; // Impor tipe data kita yang sudah direvisi
 
 export default function HomePage() {
