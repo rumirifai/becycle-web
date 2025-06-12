@@ -8,7 +8,7 @@ import { UserProfile } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"; 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Camera } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
